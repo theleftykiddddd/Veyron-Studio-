@@ -16,10 +16,54 @@ jobs:
     timeout-minutes: 45
 
     steps:
+      # 1. Descargar el repositorio
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build Geode mod
+      # 2. Corregir automáticamente la versión de Geode
+      - name: Normalize Geode version in mod.json
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+
+          $modPath = Join-Path $env:GITHUB_WORKSPACE "mod.json"
+
+          if (-not (Test-Path -LiteralPath $modPath)) {
+              throw "ERROR: mod.json was not found in the repository root."
+          }
+
+          $mod = Get-Content -LiteralPath $modPath -Raw | ConvertFrom-Json
+
+          if ($null -eq $mod.PSObject.Properties["geode"]) {
+              throw "ERROR: mod.json does not contain a geode version."
+          }
+
+          $geodeVersion = ([string]$mod.geode).Trim()
+
+          if ($geodeVersion.StartsWith("v", [System.StringComparison]::OrdinalIgnoreCase)) {
+              $geodeVersion = $geodeVersion.Substring(1)
+          }
+
+          if ($geodeVersion -ne "6.0.0-alpha.1") {
+              throw "ERROR: Expected Geode 6.0.0-alpha.1, but found '$geodeVersion'."
+          }
+
+          $mod.geode = $geodeVersion
+
+          $normalizedJson = $mod | ConvertTo-Json -Depth 100
+          $utf8NoBom = [System.Text.UTF8Encoding]::new($false)
+
+          [System.IO.File]::WriteAllText(
+              $modPath,
+              $normalizedJson + [Environment]::NewLine,
+              $utf8NoBom
+          )
+
+          Write-Host "Geode version successfully normalized:"
+          Write-Host $mod.geode
+
+      # 3. Compilar Veyron Studio
+      - name: Build Veyron Studio
         id: build
         uses: geode-sdk/build-geode-mod@main
         with:
@@ -29,6 +73,7 @@ jobs:
           build-config: Release
           use-lto: "false"
 
+      # 4. Guardar el archivo .geode generado
       - name: Upload compiled Geode package
         uses: actions/upload-artifact@v4
         with:
