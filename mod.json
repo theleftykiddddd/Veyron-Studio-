@@ -1,0 +1,43 @@
+{
+    "geode": "v6.0.0-alpha.1",
+    "gd": {
+        "win": "2.2091"
+    },
+    "id": "alan.veyron-studio",
+    "name": "Veyron Studio",
+    "version": "v1.1.0",
+    "developer": "Alan",
+    "description": "A modular creator dashboard with level diagnostics, frame-window analysis, ID mapping and snapshots.",
+    "dependencies": {},
+    "links": {
+        "source": "https://github.com/theleftykiddddd/Veyron-Studio"
+    },
+    "tags": [
+        "editor",
+        "utility",
+        "developer",
+        "interface"
+    ],
+    "settings": {
+        "animate-ui": {
+            "name": "Interface animations",
+            "description": "Enable the subtle Veyron Studio menu animations.",
+            "type": "bool",
+            "default": true
+        },
+        "show-tool-hints": {
+            "name": "Show tool hints",
+            "description": "Show short explanations inside the Studio panels.",
+            "type": "bool",
+            "default": true
+        },
+        "diagnostic-sensitivity": {
+            "name": "Diagnostic sensitivity",
+            "description": "Controls how strict the standalone diagnostic checks are.",
+            "type": "int",
+            "default": 2,
+            "min": 1,
+            "max": 5
+        }
+    }
+}

@@ -1,0 +1,19 @@
+VEYRON STUDIO - PATCH DE COMPILACION
+
+Este ZIP contiene SOLO archivos para reemplazar o agregar; no es el proyecto completo.
+
+1) En la raiz del repositorio, reemplaza CMakeLists.txt.
+2) En la raiz del repositorio, reemplaza mod.json.
+3) En la raiz del repositorio, reemplaza main.cpp.
+4) Agrega el workflow en la ruta exacta .github/workflows/build.yml.
+   No dejes build.yml en la raiz como workflow; GitHub Actions no lo detecta ahi.
+5) Conserva los demas .cpp y VeyronStudio.hpp en la raiz del repositorio.
+6) Haz Commit changes en la rama main. Eso disparara el workflow.
+
+SDK objetivo: Geode v6.0.0-alpha.1
+Juego objetivo: Geometry Dash Windows 2.2091
+Target de compilacion: Win64
+
+NOTA: Geode v6 para GD 2.2091 es una version alpha. El workflow queda configurado
+para usar esa version exacta, pero no se puede garantizar el exito de compilacion
+hasta que GitHub Actions ejecute el build real.

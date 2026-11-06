@@ -1,0 +1,9 @@
+/build/
+/cmake-build-*/
+/core-build/
+/output/
+*.geode
+*.pdb
+*.ilk
+*.obj
+*.o
