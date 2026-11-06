@@ -1,39 +1,26 @@
 
-name: Veyron Studio - Windows Build
-
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
-
-permissions:
-  contents: read
-
-jobs:
-  build:
-    name: Build Veyron Studio for GD 2.2091
-    runs-on: windows-latest
-    timeout-minutes: 45
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Build Geode mod
-        id: build
-        uses: geode-sdk/build-geode-mod@main
-        with:
-          sdk: given
-          cli: latest
-          target: Win64
-          build-config: Release
-          use-lto: "false"
-
-      - name: Upload compiled Geode package
-        uses: actions/upload-artifact@v4
-        with:
-          name: Veyron-Studio-Windows-GD-2.2091
-          path: ${{ steps.build.outputs.build-output }}
-          if-no-files-found: error
-          retention-days: 14
+{
+    "geode": "6.0.0-alpha.1",
+    "version": "1.0.0",
+    "id": "alan.veyron-studio",
+    "name": "Veyron Studio",
+    "developer": "Alan",
+    "description": "Advanced Geometry Dash development, analysis, performance, and version control suite.",
+    "dependencies": [],
+    "settings": {
+        "dark-theme": {
+            "name": "Dark Theme",
+            "description": "Enable Veyron Studio monochromatic dark IDE palette.",
+            "type": "bool",
+            "default": true
+        },
+        "analysis-sensitivity": {
+            "name": "Diagnostic Sensitivity",
+            "description": "Adjust level analyzer heuristic strictness.",
+            "type": "int",
+            "default": 2,
+            "min": 1,
+            "max": 5
+        }
+    }
+}
